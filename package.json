@@ -12,10 +12,9 @@
     },
     "keywords": [
       "MIPS",
-      "binary",
-      "converter"
+      "pipeline"
     ],
-    "author": "Seu Nome",
+    "author": "Luiz Felipe",
     "license": "ISC",
     "dependencies": {
       "dotenv": "^16.4.5",
