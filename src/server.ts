@@ -2,7 +2,9 @@ import * as path from 'path';
 
 import { applyBubble } from "./techiniques/bubbleTechinique";
 import { applyForwading } from './techiniques/forwardingTechnique';
+import { applyReordering } from './techiniques/reorderingTechinique';
 import { readFile, writeFile, getTestFiles } from "./utils/loadFile";
+import { applyReorderingBkp } from './techiniques/applyReorderingBkp';
 
 
 const directory = path.resolve(__dirname, './docs');
@@ -20,14 +22,15 @@ files.forEach(file => {
         const foewading = applyForwading(instructions);
         const outputFileName = file.replace('.txt', '-RESULTADO.txt');
         writeFile(path.join(directoryDestiny, outputFileName), foewading);
-    /* } else if (file.includes('05') || file.includes('06') || file.includes('07')) {
+    } else if (file.includes('05') || file.includes('06') || file.includes('07')) {
         const reordering = applyReordering(instructions);
         const outputFileName = file.replace('.txt', '-RESULTADO.txt');
         writeFile(path.join(directoryDestiny, outputFileName), reordering);
     } else if (file.includes('09') || file.includes('10')) {
-        const allMethods = applyAll(instructions);
+        const forwarding = applyForwading(instructions);
+        const reordering = applyReordering(forwarding);
         const outputFileName = file.replace('.txt', '-RESULTADO.txt');
-        writeFile(path.join(directoryDestiny, outputFileName), allMethods); */
+        writeFile(path.join(directoryDestiny, outputFileName), reordering);
     } else {
         console.log(`File ${file} is empty or not exists`);
     }

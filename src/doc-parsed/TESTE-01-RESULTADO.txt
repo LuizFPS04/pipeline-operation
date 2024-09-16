@@ -1,4 +1,4 @@
-lw $t0 0 $t1
+lw $t0, 0($t1)
 NOP
 NOP
-add $t2 $t0 $t3
+add $t2, $t0, $t3

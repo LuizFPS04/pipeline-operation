@@ -8,15 +8,16 @@ export function applyForwading(instructions: string[]): string[] {
     const instructionLength: number = instructions.length;
 
     for (let i = 0; i < instructionLength; i++) {
-        let instructionFound: string = instructions[i];
-        instructionFound = instructionFound.replace(/\(/g, " ")
+        const instructionFound: string = instructions[i];
+        const instructionFoundProcess = instructionFound.replace(/\(/g, " ")
             .replace(/\)/g, "")
             .replace(/,/g, "")
-            .replace(/\s+/, " ");
+            .replace(/\s+/, " ")
+            .toLowerCase();
 
         instructionOptimized.push(instructionFound);
 
-        const instructionLine: string[] = instructionFound.split(/\s+/);
+        const instructionLine: string[] = instructionFoundProcess.split(/\s+/);
         const registers: string[] = instructionLine.slice(1);
         const mnemonic: string = instructionLine[0];
 
@@ -26,15 +27,16 @@ export function applyForwading(instructions: string[]): string[] {
 
         if (advance) {
             let conflictFound: boolean = false;
-            let futureInstruction: string = instructions[i + 1];
+            const futureInstruction: string = instructions[i + 1];
 
             if (futureInstruction) {
-                futureInstruction = futureInstruction.replace(/\(/g, " ")
+                const futureInstructionProcess = futureInstruction.replace(/\(/g, " ")
                     .replace(/\)/g, "")
                     .replace(/,/g, "")
-                    .replace(/\s+/, " ");
+                    .replace(/\s+/, " ")
+                    .toLowerCase();
 
-                const futureInstructionLine: string[] = futureInstruction.split(/\s+/);
+                const futureInstructionLine: string[] = futureInstructionProcess.split(/\s+/);
                 const futureRegisters: string[] = futureInstructionLine.slice(1);
 
                 for (const register of registers) {
@@ -49,16 +51,17 @@ export function applyForwading(instructions: string[]): string[] {
             }
 
             if (!conflictFound) {
-                let futureInstructionJump: string = instructions[i + 2];
+                const futureInstructionJump: string = instructions[i + 2];
 
                 if (futureInstructionJump) {
-                    futureInstructionJump = futureInstructionJump
+                    const futureInstructionJumpProcess = futureInstructionJump
                         .replace(/\(/g, " ")
                         .replace(/\)/g, "")
                         .replace(/,/g, "")
-                        .replace(/\s+/, " ");
+                        .replace(/\s+/, " ")
+                        .toLowerCase();
 
-                    const futureInstructionJumpLine: string[] = futureInstructionJump.split(/\s+/);
+                    const futureInstructionJumpLine: string[] = futureInstructionJumpProcess.split(/\s+/);
                     const futureRegistersJump: string[] = futureInstructionJumpLine.slice(1);
 
                     for (const register of registers) {
