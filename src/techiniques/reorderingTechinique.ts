@@ -19,13 +19,13 @@ export function applyReordering(instructions: string[]): string[] {
             .toLowerCase();
 
         if (instructionFoundProcess != "nop") {
-            const hasDependanceI: boolean = hasDependance(i, instructions);
-            if (!hasDependanceI) {
+            const isDependance: boolean = hasDependance(i, instructions);
+            if (!isDependance) {
                 for (let j = 0; j < instructionLength; j++) {
                     const instructionJump: string = instructions[j];
                     if (instructionJump && instructionJump.toLowerCase() == "nop") {
-                        const hasDependanceJ: boolean = hasDependanceFuture(j, i, instructions);
-                        if (!hasDependanceJ) {
+                        const isConflict: boolean = hasConflict(j, i, instructions);
+                        if (!isConflict) {
                             instructions[j] = instructionFound;
                             instructions.slice(i, 1);
                             break;
@@ -45,7 +45,13 @@ export function applyReordering(instructions: string[]): string[] {
 
         const format: string = instructionMnemonic ? instructionMnemonic['format'] : "N/A";
 
-        if (mnemonic === 'beq' || mnemonic === 'bne' || format === 'J') {
+        if (
+            mnemonic === 'beq'  || mnemonic === 'bne' ||
+            mnemonic === 'bgez' || mnemonic === 'bgezal' ||
+            mnemonic === 'bgtz' || mnemonic === 'blez' ||
+            mnemonic === 'bltz' || mnemonic === 'bltzal' ||
+            format === 'J'
+        ) {
             instructionOptimized.unshift(instruction);
         } else {
             if (!instructionOptimized.includes(instruction)) {
@@ -111,7 +117,7 @@ function hasDependance(index: number, instructions: string[]): boolean {
     return false;
 }
 
-function hasDependanceFuture(index: number, lastIndex: number, instructions: string[]): boolean {
+function hasConflict(index: number, lastIndex: number, instructions: string[]): boolean {
 
     const mainInstruction: string = instructions[lastIndex];
     const instructionLength: number = instructions.length;
